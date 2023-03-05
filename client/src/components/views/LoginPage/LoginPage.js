@@ -1,14 +1,16 @@
 import React, {useState} from 'react'
-import Axios from 'axios'
 import {useDispatch} from 'react-redux'
+import {loginUser} from '../../../_actions/user_action'
+import {useNavigate} from 'react-router-dom'
 
 function LoginPage() {
-
-    const [Id, setId] = useState("")
+    const dispatch = useDispatch()
+    const [Email, setEmail] = useState("")
     const [Password, setPassword] = useState("")
+    const navigate = useNavigate()
 
-    const onIdHandler = (event) => {
-        setId(event.currentTarget.value)
+    const onEmailHandler = (event) => {
+        setEmail(event.currentTarget.value)
     }
 
     const onPasswordHandler = (event) => {
@@ -19,13 +21,17 @@ function LoginPage() {
         event.preventDefault()
 
         let body = {
-            id : Id,
+            email : Email,
             password : Password
         }
 
-        Axios.post('/api/users/login', body)
+        dispatch(loginUser(body))
             .then(response => {
-
+                if(response.payload.loginSuccess) {
+                    navigate('/')
+                } else {
+                    alert("Error")
+                }
             })
     }
 
@@ -35,10 +41,9 @@ function LoginPage() {
             width: '100%', height: '100vh'
         }}>
             <form style={{display:'flex', flexDirection: 'column'}}
-                onSubmit={onSubmitHandler}
-            >
-                <label>ID</label>
-                <input type="text" value={Id} onChange={onIdHandler} />
+                onSubmit={onSubmitHandler}>
+                <label>Email</label>
+                <input type="text" value={Email} onChange={onEmailHandler} />
                 <label>Password</label>
                 <input type="password" value={Password} onChange={onPasswordHandler} />
                 <br/>

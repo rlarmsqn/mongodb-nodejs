@@ -1,8 +1,7 @@
 import './App.css';
 import {
   Route,
-  Routes,
-  BrowserRouter
+  Routes
 } from "react-router-dom";
 
 import LandingPage from './components/views/LandingPage/LandingPage'
@@ -11,7 +10,6 @@ import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 
 function App() {
   return (
-      <BrowserRouter>
         <div>
           <Routes>
             <Route exact path="/" element={LandingPage()}/>
@@ -19,7 +17,6 @@ function App() {
             <Route exact path="/register" element={RegisterPage()}/>
           </Routes>
         </div>
-      </BrowserRouter>
   );
 }
 
