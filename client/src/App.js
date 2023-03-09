@@ -6,7 +6,9 @@ import {
 
 import LandingPage from './components/views/LandingPage/LandingPage'
 import LoginPage from './components/views/LoginPage/LoginPage'
-import RegisterPage from "./components/views/RegisterPage/RegisterPage";
+import RegisterPage from "./components/views/RegisterPage/RegisterPage"
+import MainPage from "./components/views/Main"
+import RegisterContentPage from "./components/views/RegisterContentPage";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
             <Route exact path="/" element={LandingPage()}/>
             <Route exact path="/login" element={LoginPage()}/>
             <Route exact path="/register" element={RegisterPage()}/>
+            <Route exact path="/main" element={MainPage()}/>
+            <Route exact path="/registerContent" element={RegisterContentPage()}/>
           </Routes>
         </div>
   );

@@ -28,7 +28,7 @@ function LoginPage() {
         dispatch(loginUser(body))
             .then(response => {
                 if(response.payload.loginSuccess) {
-                    navigate('/')
+                    navigate('/main')
                 } else {
                     alert("Error")
                 }
