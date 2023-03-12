@@ -6,12 +6,12 @@ const cookieParser = require('cookie-parser')
 const config = require('./config/key')
 const {auth} = require("./middleware/auth")
 const {User} = require("./model/User")
-
+const {upload, getFileList} = require('./middleware/upload')
 
 //application/x-www-form-urlencoded 타입을 분석해서 가져옴
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}))
 //json 타입 분석해서 가져옴
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '50mb'}))
 app.use(cookieParser())
 
 const mongoose = require('mongoose')
@@ -84,6 +84,14 @@ app.get('/api/users/logout', auth, (req, res) => {
                 success: true
             })
         })
+})
+
+app.post('/api/upload', upload, (req, res) => {
+    console.log("머고...")
+})
+
+app.get('/api/getFileList', getFileList, (req, res) => {
+    console.log("파일목록")
 })
 
 app.listen(port, () => console.log(`listening on port ${port}!`))

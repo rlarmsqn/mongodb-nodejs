@@ -9,6 +9,7 @@ import LoginPage from './components/views/LoginPage/LoginPage'
 import RegisterPage from "./components/views/RegisterPage/RegisterPage"
 import MainPage from "./components/views/Main"
 import RegisterContentPage from "./components/views/RegisterContentPage";
+import React from "react";
 
 function App() {
   return (
