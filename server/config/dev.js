@@ -1,3 +1,4 @@
+const {mongoUri} = require("./secure");
 module.exports = {
-    mongoURI: ''
+    mongoURI: mongoUri
 }
