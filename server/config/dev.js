@@ -1,4 +1,4 @@
-const {mongoUri} = require("./secure");
+require('dotenv').config()
 module.exports = {
-    mongoURI: mongoUri
+    mongoURI: process.env.MONGOURI
 }

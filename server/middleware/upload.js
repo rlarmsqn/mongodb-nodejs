@@ -1,5 +1,3 @@
-const {accessKey} = require("../config/secure");
-const {secretKey} = require("../config/secure");
 const AWS = require('aws-sdk');
 const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com');
 const region = 'kr-standard';
@@ -8,8 +6,8 @@ const S3 = new AWS.S3({
     endpoint: endpoint,
     region: region,
     credentials: {
-        accessKeyId : accessKey,
-        secretAccessKey: secretKey
+        accessKeyId: process.env.ACCESSKEY,
+        secretAccessKey: process.env.SECRETKEY
     }
 });
 
@@ -29,14 +27,17 @@ let getFileList = (req, res, next) => {
         MaxKeys: 300,
         FetchOwner: true
     }
-    // List All Objects
-    console.log("List All In The Bucket");
-    console.log("==========================");
+    let fileList = async () => {
+        let response = await S3.listObjectsV2(params).promise();
+        for (let content of response.Contents) {
+            console.log(
+                `    Name = ${content.Key}, Size = ${content.Size}, Owner = ${content.Owner.ID}`
+            );
+        }
+    }
 
-    let response = S3.listObjectsV2(params).promise();
+    fileList().then(() => next())
 
-    console.log(response)
-    next()
 }
 
-module.exports = {upload, getFileList}
+    module.exports = {upload, getFileList}

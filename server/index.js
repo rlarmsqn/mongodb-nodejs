@@ -14,6 +14,7 @@ app.use(bodyParser.json({limit: '50mb'}))
 app.use(cookieParser())
 
 const mongoose = require('mongoose')
+
 mongoose.set("strictQuery", true);
 mongoose.connect(config.mongoURI, {
     useNewUrlParser: true, useUnifiedTopology: true

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {useDispatch} from "react-redux";
-import {getFileUrl} from '../../_actions/file_action';
+import {getFileList} from '../../_actions/file_action';
 
 function MainPage() {
     const navigate = useNavigate()
@@ -11,7 +11,7 @@ function MainPage() {
         navigate("/registerContent")
     }
 
-    dispatch(getFileUrl)
+    dispatch(getFileList)
 
     return (
         <div>

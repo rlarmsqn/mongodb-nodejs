@@ -10,7 +10,7 @@ export function fileUpload(dataToSubmit) {
     }
 }
 
-export function getFileUrl() {
+export function getFileList() {
     const request = axios.get('/api/getFileList')
 
     return {
