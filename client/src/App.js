@@ -8,12 +8,14 @@ import LandingPage from './components/views/LandingPage/LandingPage'
 import LoginPage from './components/views/LoginPage/LoginPage'
 import RegisterPage from "./components/views/RegisterPage/RegisterPage"
 import MainPage from "./components/views/Main"
-import RegisterContentPage from "./components/views/RegisterContentPage";
+import RegisterContentPage from "./components/views/RegisterContentPage"
+import Header from "./components/views/Header/Header"
 import React from "react";
 
 function App() {
   return (
         <div>
+        <Header/>
           <Routes>
             <Route exact path="/" element={LandingPage()}/>
             <Route exact path="/login" element={LoginPage()}/>

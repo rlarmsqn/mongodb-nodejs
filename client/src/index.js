@@ -9,9 +9,11 @@ import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 import Reducer from './_reducers';
 import {BrowserRouter} from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
+
 root.render(
     <BrowserRouter>
         <Provider store={createStoreWithMiddleware(Reducer,
