@@ -12,13 +12,16 @@ const S3 = new AWS.S3({
 });
 
 let upload = (req, res, next) => {
-    console.log(req.body)
+    console.log(typeof req)
+    console.log('미들웨어 : ', req.body)
     // upload file
     S3.putObject({
         Bucket: 'boo',
         Key: req.body.name,
-        Body: JSON.stringify(req.body.file)
-    }).promise().then(() => next());
+        ACL: 'public-read',
+        // Body: JSON.stringify(req.body.file)
+        Body: req.body.file
+    }).promise().then(() => next()).catch((err) => console.log(err));
 };
 
 let getFileList = (req, res, next) => {
@@ -30,9 +33,7 @@ let getFileList = (req, res, next) => {
     let fileList = async () => {
         let response = await S3.listObjectsV2(params).promise();
         for (let content of response.Contents) {
-            console.log(
-                `    Name = ${content.Key}, Size = ${content.Size}, Owner = ${content.Owner.ID}`
-            );
+            console.log(`Name = ${content.Key}, Size = ${content.Size}, Owner = ${content.Owner.ID}`);
         }
     }
 
@@ -40,4 +41,4 @@ let getFileList = (req, res, next) => {
 
 }
 
-    module.exports = {upload, getFileList}
+module.exports = {upload, getFileList}

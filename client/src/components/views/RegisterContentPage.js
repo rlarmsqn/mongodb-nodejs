@@ -1,29 +1,26 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import {useDispatch} from "react-redux";
 import {fileUpload} from '../../_actions/file_action';
 
 function RegisterContentPage() {
     const dispatch = useDispatch()
-    const [File, setFile] = useState(null)
+    const [File, setFile] = useState('')
 
     const onFileHandler = (event) => {
-        setFile(event.currentTarget.files)
+        setFile(event.currentTarget.files[0])
     }
 
     const onRegisterHandler = () => {
-
+        console.log(File)
         let formData = new FormData()
-        formData.append('file', new Blob([File[0]],{type: 'image/*'}))
-
-        let blob = new Blob([File[0]],{type: 'image/*'})
+        formData.append("file", File)
+        formData.append("name", File.name)
+        let blob = new Blob([File], {type: 'image/*'})
         let body = {
-            file : blob,
-            name : File[0].name
+            file : File,
+            name : File.name,
         }
-        dispatch(fileUpload(body))
-            .then(response => {
-                console.log(response)
-            })
+        fileUpload(formData)
     }
 
     return (
@@ -31,7 +28,9 @@ function RegisterContentPage() {
             display: 'flex', justifyContent: 'center', alignItems: 'center',
             width: '100%', height: '100vh'
         }}>
+            <form id='imgForm' name='imgForm' ref={imgForm}>
             <input name='file' type='file' accept='image/*' onChange={onFileHandler}/>
+            </form>
             <button className={'registerBtn'} onClick={onRegisterHandler}>등록</button>
         </div>
     )

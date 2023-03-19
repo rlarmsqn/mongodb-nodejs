@@ -1,17 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {useDispatch} from "react-redux";
 import {getFileList} from '../../_actions/file_action';
 
 function MainPage() {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
 
     const registerContentPage = () => {
         navigate("/registerContent")
     }
 
-    dispatch(getFileList)
+    // useEffect(() => {
+        getFileList()
+    // })
 
     return (
         /*<div className={'top'} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '10vh' }}>
@@ -43,8 +43,7 @@ function MainPage() {
                             <svg className="bd-placeholder-img card-img-top" width="100%" height="225"
                                  xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
                                  preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                                <rect width="100%" height="100%" fill="#55595c"></rect>
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                                <img width="100%" height="100%" src="https://kr.object.ncloudstorage.com/boo/images/sample7.png"></img>
                             </svg>
 
                             <div className="card-body">
