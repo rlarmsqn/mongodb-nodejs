@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const port = 7000
@@ -6,27 +7,52 @@ const cookieParser = require('cookie-parser')
 const config = require('./config/key')
 const {auth} = require("./middleware/auth")
 const {User} = require("./model/User")
-const {upload, getFileList} = require('./middleware/upload')
-
-//application/x-www-form-urlencoded 타입을 분석해서 가져옴
-app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}))
-//json 타입 분석해서 가져옴
-app.use(bodyParser.json({limit: '50mb'}))
-app.use(cookieParser())
+const {Image} = require("./model/Image")
+const {imageUpload, getFileList} = require('./middleware/upload')
 
 const mongoose = require('mongoose')
+
+const multer = require('multer')
+const multerS3 = require('multer-s3')
+const AWS = require("aws-sdk");
+
+const S3 = new AWS.S3({
+    endpoint: new AWS.Endpoint('https://kr.object.ncloudstorage.com'),
+    region: 'kr-standard',
+    credentials: {
+        accessKeyId : process.env.ACCESS_KEY,
+        secretAccessKey: process.env.SECRET_KEY
+    }
+});
+
+const upload = multer({
+    storage: multerS3({
+        s3: S3,
+        bucket: 'boo',
+        acl: 'public-read',
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        key(req, file, cb) {
+            console.log(file)
+            cb(null, `${Date.now()}_${file.originalname}`)
+        },
+    }),
+    limits: { fileSize: 5 * 1024 * 1024},
+})
+
+app.use(cookieParser())
+//json 타입 분석해서 가져옴
+app.use(bodyParser.json({limit: '50mb'}))
+//application/x-www-form-urlencoded 타입을 분석해서 가져옴
+app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}))
+
 
 mongoose.set("strictQuery", true);
 mongoose.connect(config.mongoURI, {
     useNewUrlParser: true, useUnifiedTopology: true
-}).then(() => console.log('몽고 연결!'))
+}).then(() => console.log('mongodb connect...'))
     .catch(err => console.log(err))
 
 app.get('/', (req, res) => res.send('Hello'))
-
-app.get('/api/hello', (req, res) => {
-    res.send('hiyo~')
-})
 
 app.post('/api/users/register', (req, res) => {
 
@@ -87,15 +113,31 @@ app.get('/api/users/logout', auth, (req, res) => {
         })
 })
 
-app.post('/api/upload', upload, (req, res) => {
-    console.log("머고...")
+app.post('/api/upload', upload.single('file'), (req, res) => {
+    console.log("-----이미지 업로드-----")
+    console.log(req.body)
+    console.log(req.file)
+    let body = {
+        url : req.file.location,
+        title: req.body.title,
+        comment: req.body.comment,
+        regDate: req.body.regDate,
+    }
+    const image = new Image(body)
+    image.save()
 })
 
 app.get('/api/getFileList', getFileList, (req, res) => {
-    console.log("파일목록")
-       res.status(200).json({
-            success: true
+    console.log("-----파일목록-----")
+    let imgList
+    Image.find({}).then(list => {
+        imgList = list
+        console.log(imgList)
+        res.status(200).json({
+            success: 'true',
+            list: imgList
         })
+    })
 })
 
 app.listen(port, () => console.log(`listening on port ${port}!`))

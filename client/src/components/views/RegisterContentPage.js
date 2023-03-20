@@ -2,25 +2,34 @@ import React, {useState, useRef} from 'react'
 import {useDispatch} from "react-redux";
 import {fileUpload} from '../../_actions/file_action';
 
+const moment = require('moment')
+
 function RegisterContentPage() {
     const dispatch = useDispatch()
     const [File, setFile] = useState('')
+    const [Title, setTitle] = useState('')
+    const [Comment, setComment] = useState('')
 
     const onFileHandler = (event) => {
         setFile(event.currentTarget.files[0])
     }
 
+    const onTitleHandler = (e) => {
+        setTitle(e.currentTarget.value)
+    }
+
+    const onCommentHandler = (e) => {
+        setComment(e.currentTarget.value)
+    }
+
     const onRegisterHandler = () => {
-        console.log(File)
         let formData = new FormData()
         formData.append("file", File)
-        formData.append("name", File.name)
-        let blob = new Blob([File], {type: 'image/*'})
-        let body = {
-            file : File,
-            name : File.name,
-        }
-        fileUpload(formData)
+        formData.append('title', Title)
+        formData.append('comment', Comment)
+        formData.append('regDate', moment().format('YYYY-MM-DD HH:mm:ss'))
+
+        dispatch(fileUpload(formData))
     }
 
     return (
@@ -28,9 +37,9 @@ function RegisterContentPage() {
             display: 'flex', justifyContent: 'center', alignItems: 'center',
             width: '100%', height: '100vh'
         }}>
-            <form id='imgForm' name='imgForm' ref={imgForm}>
             <input name='file' type='file' accept='image/*' onChange={onFileHandler}/>
-            </form>
+            <input type='text' onChange={onTitleHandler}/>
+            <input type='text' onChange={onCommentHandler}/>
             <button className={'registerBtn'} onClick={onRegisterHandler}>등록</button>
         </div>
     )

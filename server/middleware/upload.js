@@ -1,44 +1,33 @@
 const AWS = require('aws-sdk');
 const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com');
 const region = 'kr-standard';
+const accessKey = process.env.ACCESS_KEY
+const secretKey = process.env.SECRET_KEY
 
-const S3 = new AWS.S3({
-    endpoint: endpoint,
-    region: region,
-    credentials: {
-        accessKeyId: process.env.ACCESSKEY,
-        secretAccessKey: process.env.SECRETKEY
-    }
-});
-
-let upload = (req, res, next) => {
-    console.log(typeof req)
-    console.log('미들웨어 : ', req.body)
+let imageUpload = (req, res, next) => {
+    const upload = multer({
+        storage: multerS3({
+            s3: S3,
+            bucket: 'boo',
+            acl: 'public-read',
+            contentType: multerS3.AUTO_CONTENT_TYPE,
+            key(req, file, cb) {
+                cb(null, `${Date.now()}_${path.basename(file.originalname)}`)
+            },
+        }),
+        limits: { fileSize: 5 * 1024 * 1024},
+    })
     // upload file
-    S3.putObject({
+    /*S3.putObject({
         Bucket: 'boo',
         Key: req.body.name,
-        ACL: 'public-read',
-        // Body: JSON.stringify(req.body.file)
         Body: req.body.file
-    }).promise().then(() => next()).catch((err) => console.log(err));
+    });*/
+    next()
 };
 
 let getFileList = (req, res, next) => {
-    let params = {
-        Bucket: 'boo',
-        MaxKeys: 300,
-        FetchOwner: true
-    }
-    let fileList = async () => {
-        let response = await S3.listObjectsV2(params).promise();
-        for (let content of response.Contents) {
-            console.log(`Name = ${content.Key}, Size = ${content.Size}, Owner = ${content.Owner.ID}`);
-        }
-    }
-
-    fileList().then(() => next())
-
+    next()
 }
 
-module.exports = {upload, getFileList}
+module.exports = {imageUpload, getFileList}
