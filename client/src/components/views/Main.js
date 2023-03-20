@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {getFileList} from '../../_actions/file_action';
 import axios from 'axios';
 
 function MainPage() {
     const navigate = useNavigate()
+    const [List, setList] = useState('')
 
     const registerContentPage = () => {
         navigate("/registerContent")
@@ -13,8 +13,11 @@ function MainPage() {
     useEffect(() => {
         axios.get('/api/getFileList').then(res => {
             console.log(res)
+            // setList(res.data.list)
         })
-    })
+    },[])
+    console.log('55')
+    // console.log(JSON.parse(List[0])._id)
 
     return (
         <div className="album py-5 bg-light">
@@ -23,9 +26,7 @@ function MainPage() {
                     <div className="row py-lg-5">
                         <div className="col-lg-6 col-md-8 mx-auto">
                             <h1 className="fw-light">.</h1>
-                            <p className="lead text-muted">Something short and leading about the collection below—its
-                                contents, the creator, etc. Make it short and sweet, but not too short so folks don’t
-                                simply skip over it entirely.</p>
+                            <p className="lead text-muted"></p>
                             <p>
                                 <a className="btn btn-primary my-2" onClick={registerContentPage}>Do Register</a>
                             </p>
