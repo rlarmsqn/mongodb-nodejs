@@ -1,3 +1,5 @@
+import React from "react"
+
 import './App.css';
 import {
   Route,
@@ -10,7 +12,6 @@ import RegisterPage from "./components/views/RegisterPage/RegisterPage"
 import MainPage from "./components/views/Main"
 import RegisterContentPage from "./components/views/RegisterContentPage"
 import Header from "./components/views/Header/Header"
-import React from "react";
 
 function App() {
   return (
