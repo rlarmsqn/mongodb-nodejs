@@ -38,13 +38,13 @@ function RegisterContentPage() {
                 width: '100%', height: '100vh'}}>
                 <div className="col-12">
                     <label htmlFor="formFile" className="form-label">Image</label>
-                    <input className="form-control" type="file" name="file"/>
+                    <input className="form-control" type="file" name="file" accept="image/*" onChange={onFileHandler}/>
 
                     <label htmlFor="formGroupExampleInput" className="form-label">Title</label>
                     <input type="text" className="form-control" placeholder="title.." maxLength={17} onChange={onTitleHandler}/>
 
                     <label htmlFor="formGroupExampleInput2" className="form-label">Comment</label>
-                    <textarea className="form-control" placeholder="comment.." style={{height:'17vh'}} maxLength={50} onChange={onCommentHandler}/>
+                    <textarea className="form-control" placeholder="comment.." style={{height:'17vh'}} maxLength={50}/>
 
                     <button type="button" className="btn btn-dark" onClick={onRegisterHandler} style={{marginTop: '10px', float: 'right'}}>등록</button>
                 </div>
