@@ -2,8 +2,8 @@ import React from "react"
 
 import './App.css';
 import {
-  Route,
-  Routes
+    Route,
+    Routes
 } from "react-router-dom";
 
 import LandingPage from './components/views/LandingPage/LandingPage'
@@ -14,18 +14,18 @@ import RegisterContentPage from "./components/views/RegisterContentPage"
 import Header from "./components/views/Header/Header"
 
 function App() {
-  return (
+    return (
         <div>
-        <Header/>
-          <Routes>
-            <Route exact path="/" element={LoginPage()}/>
-            <Route exact path="/login" element={LoginPage()}/>
-            <Route exact path="/register" element={RegisterPage()}/>
-            <Route exact path="/main" element={MainPage()}/>
-            <Route exact path="/registerContent" element={RegisterContentPage()}/>
-          </Routes>
+            <Header/>
+            <Routes>
+                <Route exact path="/" element={LoginPage()}/>
+                <Route exact path="/login" element={LoginPage()}/>
+                <Route exact path="/register" element={RegisterPage()}/>
+                <Route exact path="/main" element={MainPage()}/>
+                <Route exact path="/registerContent" element={RegisterContentPage()}/>
+            </Routes>
         </div>
-  );
+    );
 }
 
 export default App;

@@ -124,7 +124,11 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
         regDate: req.body.regDate,
     }
     const image = new Image(body)
-    image.save()
+    image.save().then(() => {
+        res.status(200).json({
+            success: 'true'
+        })
+    })
 })
 
 app.get('/api/getFileList', getFileList, (req, res) => {

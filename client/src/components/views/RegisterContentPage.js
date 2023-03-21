@@ -1,11 +1,14 @@
 import React, {useState, useRef} from 'react'
 import {useDispatch} from "react-redux";
 import {fileUpload} from '../../_actions/file_action';
+import {useNavigate} from 'react-router-dom'
 
 const moment = require('moment')
 
 function RegisterContentPage() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     const [File, setFile] = useState('')
     const [Title, setTitle] = useState('')
     const [Comment, setComment] = useState('')
@@ -30,6 +33,16 @@ function RegisterContentPage() {
         formData.append('regDate', moment().format('YYYY-MM-DD HH:mm:ss'))
 
         dispatch(fileUpload(formData))
+            .then(res => {
+                console.log(res)
+                if(res.payload.data.success) {
+                    alert("등록되었다")
+                    navigate('/main', {state: true})
+                } else {
+                    alert("Error..")
+                    navigate('/main')
+                }
+            })
     }
 
     return (
@@ -44,7 +57,7 @@ function RegisterContentPage() {
                     <input type="text" className="form-control" placeholder="title.." maxLength={17} onChange={onTitleHandler}/>
 
                     <label htmlFor="formGroupExampleInput2" className="form-label">Comment</label>
-                    <textarea className="form-control" placeholder="comment.." style={{height:'17vh'}} maxLength={50}/>
+                    <textarea className="form-control" placeholder="comment.." style={{height:'17vh'}} maxLength={50} onChange={onCommentHandler}/>
 
                     <button type="button" className="btn btn-dark" onClick={onRegisterHandler} style={{marginTop: '10px', float: 'right'}}>등록</button>
                 </div>

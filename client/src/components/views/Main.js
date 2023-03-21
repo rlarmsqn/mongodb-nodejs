@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useLocation} from 'react-router-dom'
 import axios from 'axios'
 import MyVerticallyCenteredModal from './Modal.js'
 
 function MainPage() {
+    const location = useLocation()
     const navigate = useNavigate()
     const [List, setList] = useState([])
     const [modalShow, setModalShow] = useState(false)
@@ -18,7 +19,7 @@ function MainPage() {
         axios.get('/api/getFileList').then(res => {
             setList(res.data.list)
         })
-    },[])
+    },[location])
 
     if(List.length !== 0) {
         return (
