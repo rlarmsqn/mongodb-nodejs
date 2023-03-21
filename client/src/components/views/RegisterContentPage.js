@@ -41,16 +41,13 @@ function RegisterContentPage() {
                     <input className="form-control" type="file" name="file"/>
 
                     <label htmlFor="formGroupExampleInput" className="form-label">Title</label>
-                    <input type="text" className="form-control" placeholder="title.." maxLength={17}/>
+                    <input type="text" className="form-control" placeholder="title.." maxLength={17} onChange={onTitleHandler}/>
 
                     <label htmlFor="formGroupExampleInput2" className="form-label">Comment</label>
-                    <textarea className="form-control" placeholder="comment.." style={{height:'17vh'}} maxLength={50}/>
-                </div>
+                    <textarea className="form-control" placeholder="comment.." style={{height:'17vh'}} maxLength={50} onChange={onCommentHandler}/>
 
-                {/*<input name='file' type='file' accept='image/*' onChange={onFileHandler}/>
-            <input type='text' onChange={onTitleHandler}/>
-            <input type='text' onChange={onCommentHandler}/>
-            <button className={'registerBtn'} onClick={onRegisterHandler}>등록</button>*/}
+                    <button type="button" className="btn btn-dark" onClick={onRegisterHandler} style={{marginTop: '10px', float: 'right'}}>등록</button>
+                </div>
             </div>
         </div>
     )
